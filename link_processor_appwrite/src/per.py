@@ -1,7 +1,7 @@
 import requests
 import os
 
-def perplexity_aI(link):
+def perplexity_aI(context, link):
     url = "https://api.perplexity.ai/chat/completions"
 
     payload = {
@@ -29,11 +29,11 @@ def perplexity_aI(link):
     try:
         response = requests.post(url, json=payload, headers=headers)
         json = response.json()
+        context.log(json['choices'][0]['message']['content'])
         
-        if(json['choices'].length == 0):
-            return json['choices'][0]['message']['content']
-        else:
-            return ''
+        return json['choices'][0]['message']['content']
         
-    except:
+        
+    except Exception as e:
+        context.error(e)
         return ''
