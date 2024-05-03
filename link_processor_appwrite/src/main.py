@@ -1,35 +1,28 @@
-import openai
-from .utils import get_static_file, throw_if_missing
+from .utils import  throw_if_missing
+from .per import  perplexity_aI
+from .yt import  get_transcript
 import os
 
 
 def main(context):
-    throw_if_missing(os.environ, ["OPENAI_API_KEY"])
+    throw_if_missing(os.environ, ["PERPLEXITY_API_KEY"])
 
     if context.req.method == "GET":
-        return context.res.send(
-            get_static_file("index.html"),
-            200,
-            {
-                "content-type": "text/html; charset=utf-8"
-            },
-        )
+        return context.res.json({"ok": True, "response": "Hello, world!"}, 200)
 
     try:
-        throw_if_missing(context.req.body, ["prompt"])
-    except ValueError as err:
-        return context.res.json({"ok": False, "error": err.message}, 400)
+        throw_if_missing(context.req.body, ["link"])
+    except:
+        return context.res.json({"ok": False, "response": ''}, 200)
 
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+    link = context.req.body["link"]
 
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            max_tokens=int(os.environ.get("OPENAI_MAX_TOKENS", "512")),
-            messages=[{"role": "user", "content": context.req.body["prompt"]}],
-        )
-        completion = response.choices[0].message.content
-        return context.res.json({"ok": True, "completion": completion}, 200)
+    result = ''
+    if "youtube.com" in link:
+        result = get_transcript(link)
+    else:
+        result = perplexity_aI(link)
 
-    except Exception:
-        return context.res.json({"ok": False, "error": "Failed to query model."}, 500)
+    return context.res.json({"ok": True, "response": result}, 200)
+
+
