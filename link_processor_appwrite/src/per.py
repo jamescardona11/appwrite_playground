@@ -1,4 +1,5 @@
 import requests
+import os
 
 def perplexity_aI(link):
     url = "https://api.perplexity.ai/chat/completions"
