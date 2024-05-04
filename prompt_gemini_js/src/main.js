@@ -27,7 +27,7 @@ export default async ({ req, res, log, error }) => {
     const prompt = req.body.prompt;
 
     log(`Generating content for prompt: ${prompt}`);
-    log(`Using model: ${system}`);
+    log(`Using model: ${system + prompt}`);
 
     const result = await model.generateContent(system + prompt);
     const response = await result.response;
@@ -40,12 +40,3 @@ export default async ({ req, res, log, error }) => {
   }
 };
 
-
-async function main() {
-
-
-
-};
-
-
-main()
