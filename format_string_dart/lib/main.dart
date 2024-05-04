@@ -18,7 +18,7 @@ Future<dynamic> main(final context) async {
       return e.isNotEmpty;
     }).map((e) {
       return e.trim();
-    }).join('-'));
+    }).join('-*-*-'));
 
     context.log('Response: $response');
 
