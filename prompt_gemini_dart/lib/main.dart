@@ -31,7 +31,7 @@ Future<dynamic> main(final context) async {
 
     return context.res.json({'ok': true, 'response': response.text}, 200);
   } catch (err) {
-    context.err(err);
+    context.log(err);
     return context.res.json({'ok': false, 'response': ''}, 400);
   }
 }
