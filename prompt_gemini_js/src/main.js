@@ -8,7 +8,7 @@ export default async ({ req, res, log, error }) => {
 
   if (req.method === 'GET') {
     log('GET request');
-    return res.json({ ok: false, response: '' }, 200);
+    return res.json({ ok: false, response: 'Hello!!' }, 200);
   }
 
   try {
@@ -27,6 +27,7 @@ export default async ({ req, res, log, error }) => {
     const prompt = req.body.prompt;
 
     log(`Generating content for prompt: ${prompt}`);
+    log(`Using model: ${system}`);
 
     const result = await model.generateContent(system + prompt);
     const response = await result.response;
@@ -35,7 +36,7 @@ export default async ({ req, res, log, error }) => {
     return res.json({ ok: true, response: text }, 200);
   } catch (err) {
     error(err);
-    return res.json({ ok: false, response: '' }, 200);
+    return res.json({ ok: false, err: err }, 500);
   }
 };
 
