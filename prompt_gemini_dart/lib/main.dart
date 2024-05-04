@@ -15,7 +15,8 @@ Future<dynamic> main(final context) async {
   try {
     throwIfMissing(context.req.body, ['prompt']);
   } catch (err) {
-    return context.res.json({'ok': false, 'error': err.toString()});
+    context.err(err.toString());
+    return context.res.json({'ok': false, 'error': err.toString()}, 404);
   }
 
   var apiKey = Platform.environment['GEMINI_API_KEY']!;
@@ -30,7 +31,7 @@ Future<dynamic> main(final context) async {
 
     return context.res.json({'ok': true, 'response': response.text}, 200);
   } catch (err) {
-    context.log(err.toString());
-    return context.res.json({'ok': false, 'response': ''}, 240);
+    context.err(err.toString());
+    return context.res.json({'ok': false, 'response': ''}, 400);
   }
 }
