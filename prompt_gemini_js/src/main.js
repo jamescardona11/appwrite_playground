@@ -3,16 +3,18 @@ import { system, throwIfMissing } from './utils.js';
 
 
 
-export default async ({ req, res }) => {
+export default async ({ req, res, log, error }) => {
   throwIfMissing(process.env, ['GEMINI_API_KEY']);
 
   if (req.method === 'GET') {
+    log('GET request');
     return res.json({ ok: false, response: '' }, 200);
   }
 
   try {
     throwIfMissing(req.body, ['prompt']);
   } catch (err) {
+    error(err.message);
     return res.json({ ok: false, error: err.message }, 400);
   }
 
@@ -24,11 +26,15 @@ export default async ({ req, res }) => {
 
     const prompt = req.body.prompt;
 
+    log(`Generating content for prompt: ${prompt}`);
+
     const result = await model.generateContent(system + prompt);
     const response = await result.response;
     const text = response.text();
+    log(`Generated content: ${text}`);
     return res.json({ ok: true, response: text }, 200);
   } catch (err) {
+
     return res.json({ ok: false, response: '' }, 200);
   }
 };
