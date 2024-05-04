@@ -34,7 +34,7 @@ export default async ({ req, res, log, error }) => {
     log(`Generated content: ${text}`);
     return res.json({ ok: true, response: text }, 200);
   } catch (err) {
-
+    error(err);
     return res.json({ ok: false, response: '' }, 200);
   }
 };
