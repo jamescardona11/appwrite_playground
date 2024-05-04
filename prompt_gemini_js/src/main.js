@@ -19,6 +19,7 @@ export default async ({ req, res, log, error }) => {
   }
 
   const api = process.env.GEMINI_API_KEY;
+  log(`API Key: ${api}`);
 
   try {
     const genAI = new GoogleGenerativeAI(api);
@@ -36,7 +37,7 @@ export default async ({ req, res, log, error }) => {
     return res.json({ ok: true, response: text }, 200);
   } catch (err) {
     error(err);
-    return res.json({ ok: false, err: err }, 500);
+    return res.json({ ok: false, err: err }, 400);
   }
 };
 
