@@ -11,7 +11,9 @@ Future<dynamic> main(final context) async {
   try {
     context.log('Input to generate: $input');
 
-    String output = input.replaceAll(RegExp(r'[\[\]{},"]'), '');
+    final int firstIndex = input.indexOf('[');
+    final realInput = input.substring(firstIndex, input.length - 1);
+    String output = realInput.replaceAll(RegExp(r'[\[\]{},"]'), '');
     final list = output.split("tweet:");
 
     final response = jsonEncode(list.where((e) {
