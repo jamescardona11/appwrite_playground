@@ -17,7 +17,7 @@ export default async ({ req, res, log, error }) => {
 
   try {
 
-    const input = req.body.prompt;
+    const input = req.body.input;
     log(`input : ${input}`);
 
     let firstIndex = input.indexOf('[');
