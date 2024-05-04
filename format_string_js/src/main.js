@@ -1,6 +1,7 @@
 import { throwIfMissing } from './utils.js';
 
 export default async ({ req, res, log, error }) => {
+  log(`JSON : ${req.body}`);
 
 
   if (req.method === 'GET') {
