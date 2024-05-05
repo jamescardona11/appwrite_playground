@@ -4,7 +4,7 @@ import os
 
 def open_ai(context, link):
 
-    prompt= "your task is to give a summary of the post: " + link
+    prompt= "Give the summary for the next url; maximum 30 words" + link
 
     openai.api_key = os.environ["OPENAI_API_KEY"]
 
