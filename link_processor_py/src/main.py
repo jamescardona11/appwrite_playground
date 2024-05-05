@@ -23,9 +23,9 @@ def main(context):
     if "youtube.com" in link:
         result = get_transcript(link)
     elif onlySummary:
-        result = perplexity_aI(context, link)
-    else:
         result = open_ai(context, link)
+    else:
+        result = perplexity_aI(context, link)
 
     return context.res.json({"ok": True, "response": result}, 200)
 
