@@ -4,7 +4,7 @@ import os
 
 def open_ai(context, link):
 
-    prompt= "Give the summary for the next url; maximum 30 words" + link
+    prompt= "Give the summary for the next url; maximum 30 words:" + link
 
     openai.api_key = os.environ["OPENAI_API_KEY"]
 
@@ -13,6 +13,7 @@ def open_ai(context, link):
             model="gpt-3.5-turbo",
             max_tokens=int(os.environ.get("OPENAI_MAX_TOKENS", "512")),
             messages=[{"role": "user", "content": prompt}],
+            
         )
         completion = response.choices[0].message.content
         return context.res.json({"ok": True, "completion": completion}, 200)
