@@ -39,7 +39,7 @@ def perplexity_aI(context, link):
         if "I cannot provide" in result:
             return open_ai(context, link)
 
-        return json['choices'][0]['message']['content']
+        return result
         
         
     except Exception as e:

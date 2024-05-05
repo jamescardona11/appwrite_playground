@@ -1,23 +1,34 @@
-import openai
+import requests
 import os
 
 
 def open_ai(context, link):
+    url = "https://api.perplexity.ai/chat/completions"
 
     prompt= "Give the summary for the next url; maximum 30 words."
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "system", "content": prompt}, 
+            {"role": "user", "content": link}
+        ],
+    }
 
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+    
+    api_key = os.environ["OPENAI_API_KEY"]
+    headers = {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "authorization": "Bearer " + api_key   
+    }
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            max_tokens=int(os.environ.get("OPENAI_MAX_TOKENS", "512")),
-            messages=[{"role": "system", "content": prompt}, {"role": "user", "content": link}],
-            
-        )
-        completion = response.choices[0].message.content
-        return context.res.json({"ok": True, "completion": completion}, 200)
+        response = requests.post(url, json=payload, headers=headers)
+        json = response.json()
+        result = json['choices'][0]['message']['content']
+        
+        return result
     
     except Exception as e:
         context.error(e)
-        return context.res.json({"ok": False, "error": "Failed to query model."}, 500)
+        return ''
