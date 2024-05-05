@@ -3,7 +3,7 @@ import os
 
 
 def open_ai(context, link):
-    url = "https://api.perplexity.ai/chat/completions"
+    url = "https://api.openai.com/v1/chat/completions"
 
     prompt= "Give the summary for the next url; maximum 30 words."
     payload = {
@@ -25,6 +25,9 @@ def open_ai(context, link):
     try:
         response = requests.post(url, json=payload, headers=headers)
         json = response.json()
+        context.log(json)
+        
+        
         result = json['choices'][0]['message']['content']
         
         return result
