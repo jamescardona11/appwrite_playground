@@ -1,11 +1,12 @@
 from .utils import  throw_if_missing
 from .per import  perplexity_aI
 from .yt import  get_transcript
+from .open_ai import  open_ai
 import os
 
 
 def main(context):
-    throw_if_missing(os.environ, ["PERPLEXITY_API_KEY"])
+    throw_if_missing(os.environ, ["PERPLEXITY_API_KEY", "OPENAI_API_KEY"])
 
     if context.req.method == "GET":
         return context.res.json({"ok": True, "response": "Hello, world!"}, 200)
@@ -16,12 +17,15 @@ def main(context):
         return context.res.json({"ok": False, "response": ''}, 200)
 
     link = context.req.body["link"]
+    onlySummary = context.req.body["onlySummary"] or False
 
     result = ''
     if "youtube.com" in link:
         result = get_transcript(link)
-    else:
+    elif onlySummary:
         result = perplexity_aI(context, link)
+    else:
+        result = open_ai(context, link)
 
     return context.res.json({"ok": True, "response": result}, 200)
 
