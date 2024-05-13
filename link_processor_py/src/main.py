@@ -21,7 +21,7 @@ def main(context):
     summary = context.req.body["summary"] or ""
 
     result = ''
-    if "youtube.com" in link:
+    if "youtube.com" in link and onlySummary == False:
         result = get_transcript(link)
     elif onlySummary:
         result = open_ai(context, link, summary)
