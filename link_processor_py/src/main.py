@@ -18,12 +18,13 @@ def main(context):
 
     link = context.req.body["link"]
     onlySummary = context.req.body["onlySummary"] or False
+    summary = context.req.body["summary"] or ""
 
     result = ''
     if "youtube.com" in link:
         result = get_transcript(link)
     elif onlySummary:
-        result = open_ai(context, link)
+        result = open_ai(context, link, summary, title)
     else:
         result = perplexity_aI(context, link)
 

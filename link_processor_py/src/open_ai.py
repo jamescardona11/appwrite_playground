@@ -2,25 +2,35 @@ import requests
 import os
 
 
-def open_ai(context, link):
+def open_ai(context, link, summary):
     url = "https://api.openai.com/v1/chat/completions"
-
-    prompt= "Give the summary for the next url; maximum 30 words."
-    payload = {
-        "model": "gpt-3.5-turbo",
-        "messages": [
-            {"role": "system", "content": prompt}, 
-            {"role": "user", "content": link}
-        ],
-    }
-
-    
     api_key = os.environ["OPENAI_API_KEY"]
     headers = {
         "accept": "application/json",
         "content-type": "application/json",
         "authorization": "Bearer " + api_key   
     }
+    
+    
+    prompt= "Give the summary for the next url; maximum 30 words."
+    sP = link
+    if summary != "":
+        prompt= "Give the summary for the text; maximum 30 words."
+        sP = summary
+    
+    
+
+    
+    payload = {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+            {"role": "system", "content": prompt}, 
+            {"role": "user", "content": sP}
+        ],
+    }
+
+    
+    
 
     try:
         response = requests.post(url, json=payload, headers=headers)

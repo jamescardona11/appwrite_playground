@@ -10,7 +10,7 @@ def perplexity_aI(context, link):
         "model": "mistral-7b-instruct",
         "messages": [
             {
-                "role": "user",
+                "role": "system",
                 "content": prompt
             },
             {
@@ -37,7 +37,10 @@ def perplexity_aI(context, link):
         result = json['choices'][0]['message']['content']
 
         if "I cannot provide" in result:
-            return open_ai(context, link)
+            return open_ai(context, link, "", "")
+        
+        if result == "":
+            return open_ai(context, link, "", "")
 
         return result
         
