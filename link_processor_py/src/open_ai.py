@@ -14,10 +14,15 @@ def open_ai(context, link, summary):
     
     prompt= "Give the summary for the next url; maximum 30 words."
     sP = link
+    
+    context.log("summary")
+    context.log(summary)
     if summary != "":
-        prompt= "Give the summary for the text; maximum 30 words."
+        prompt= "Give the summary for next text something short; maximum 30 words."
         sP = summary
     
+    context.log("prompt")
+    context.log(prompt)
     
 
     
