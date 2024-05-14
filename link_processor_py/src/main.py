@@ -18,7 +18,10 @@ def main(context):
 
     link = context.req.body["link"]
     onlySummary = context.req.body["onlySummary"] or False
-    summary = context.req.body["summary"] or ""
+    
+    summary = ""
+    if context.req.body.get('summary') is not None:
+        summary = context.req.body["summary"]
 
     result = ''
     if "youtube.com" in link and onlySummary == False:
@@ -27,6 +30,9 @@ def main(context):
         result = open_ai(context, link, summary)
     else:
         result = perplexity_aI(context, link)
+        
+    if result == "":
+        return context.res.json({"ok": False, "response": ''}, 400)
 
     return context.res.json({"ok": True, "response": result}, 200)
 
