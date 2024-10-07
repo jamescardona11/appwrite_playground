@@ -15,7 +15,8 @@ def open_ai(context, link, summary):
     prompt= """You are a web content summarization AI. You will summarize the content of a provided web page, focusing on extracting the most relevant information and key points.
         - The summary must be concise and limited to 30 words or less.
         - Avoid any phrases that reference the structure of the post, such as "the next post," "the post is," or "this medium post."
-        - Do not include any preamble, commentary, or quotes in the output.
+        - Do not include any preamble, commentary, or quotes in the output, or 'summary:'.
+        - Just give me the summary, nothing else.
          Present the summary in a clear and organized manner, ensuring it captures the essence of the content without unnecessary details."""
 
     sP = link
